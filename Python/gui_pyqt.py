@@ -1,7 +1,7 @@
 import sys
 import os
 import pandas as pd
-from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, QTextEdit, QPushButton, QGridLayout, QFileDialog, QMessageBox)
+from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, QTextEdit, QPushButton, QVBoxLayout, QTabWidget, QGridLayout, QFileDialog, QMessageBox)
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 
 # Directory configurations
@@ -70,6 +70,33 @@ class DataAnalyzerApp(QWidget):
         self.load_button.clicked.connect(self.on_load_data)
         layout.addWidget(self.load_button, 0, 0)
 
+        # Create the tab widget
+        self.tab_widget = QTabWidget(self)
+
+        # Create tabs
+        self.prepare_files_tab = QWidget()
+        self.appearance_tab = QWidget()
+        self.ancestry_tab = QWidget()
+        self.help_tab = QWidget()
+
+        # Add tabs to the tab widget
+        self.tab_widget.addTab(self.prepare_files_tab, "Prepare Files")
+        self.tab_widget.addTab(self.appearance_tab, "Appearance")
+        self.tab_widget.addTab(self.ancestry_tab, "Ancestry")
+        self.tab_widget.addTab(self.help_tab, "Help")
+
+        # Initialize the tabs' content
+        self.prepare_files_tab_ui()
+        self.appearance_tab_ui()
+        self.ancestry_tab_ui()
+        self.help_tab_ui()
+
+        # Create the main layout and add the tab widget
+        main_layout = QVBoxLayout(self)
+        main_layout.addWidget(self.tab_widget)
+
+        self.setLayout(main_layout)
+
         # Sample label and entry
         self.label_sample = QLabel("Person to be analyzed:")
         layout.addWidget(self.label_sample, 0, 1, Qt.AlignRight)
@@ -97,6 +124,67 @@ class DataAnalyzerApp(QWidget):
         layout.addWidget(self.text_output, 6, 0, 1, 3)
 
         self.setLayout(layout)
+
+    def prepare_files_tab_ui(self):
+        # Layout for the "Prepare Files" tab
+        layout = QGridLayout()
+
+        # Sample label and entry
+        self.label_sample = QLabel("Person to be analyzed:")
+        layout.addWidget(self.label_sample, 0, 0)
+
+        self.sample_entry = QLineEdit()
+        layout.addWidget(self.sample_entry, 0, 1)
+
+        # Load data button
+        self.load_button = QPushButton("Load Data")
+        self.load_button.clicked.connect(self.on_load_data)
+        layout.addWidget(self.load_button, 1, 0)
+
+        # Text output for logs and messages
+        self.text_output_prepare = QTextEdit()
+        self.text_output_prepare.setReadOnly(True)
+        layout.addWidget(self.text_output_prepare, 2, 0, 1, 2)
+
+        self.prepare_files_tab.setLayout(layout)
+
+    def appearance_tab_ui(self):
+        # Layout for the "Appearance" tab
+        layout = QVBoxLayout()
+
+        # Placeholder appearance analysis UI
+        appearance_label = QLabel("Appearance Analysis - Under Construction")
+        layout.addWidget(appearance_label)
+
+        self.appearance_tab.setLayout(layout)
+
+    def ancestry_tab_ui(self):
+        # Layout for the "Ancestry" tab
+        layout = QVBoxLayout()
+
+        # Placeholder ancestry analysis UI
+        ancestry_label = QLabel("Ancestry Analysis - Under Construction")
+        layout.addWidget(ancestry_label)
+
+        self.ancestry_tab.setLayout(layout)
+
+    def help_tab_ui(self):
+        # Layout for the "Help" tab
+        layout = QVBoxLayout()
+
+        # Simple help text
+        help_text = QTextEdit()
+        help_text.setPlainText(
+            "Help Guide\n\n"
+            "1. Go to the 'Prepare Files' tab to load your data and prepare files for analysis.\n"
+            "2. Use the 'Appearance' and 'Ancestry' tabs for corresponding analyses (coming soon).\n"
+            "3. If you need further assistance, contact support."
+        )
+        help_text.setReadOnly(True)
+        layout.addWidget(help_text)
+
+        self.help_tab.setLayout(layout)
+
 
     def on_load_data(self):
         if self.is_loading:
