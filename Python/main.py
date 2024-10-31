@@ -27,8 +27,8 @@ class DataAnalyzerApp(QWidget):
 
         # Add tabs
         self.tab_widget.addTab(PrepareFilesTab(), "Prepare Files")
-        self.tab_widget.addTab(AppearanceTab(), "Appearance")
-        self.tab_widget.addTab(AncestryTab(), "Ancestry")
+        # self.tab_widget.addTab(AppearanceTab(), "Appearance")
+        # self.tab_widget.addTab(AncestryTab(), "Ancestry")
         self.tab_widget.addTab(HelpTab(), "Help")
 
         # Set main layout
